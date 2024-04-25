@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My account</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Стилі для верхнього банера */
+        .header {
+            background-color: #d9edf7;
+            color: #31708f;
+            border-color: #d9edf7;
+            padding: 10px;
+            text-align: left;
+        }
+
+        /* Стилі для основного вмісту */
+        .content {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Стилі для рядків з атрибутами користувача */
+        .user-info-row {
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc; /* Горизонтальна лінія після рядка */
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+<div th:insert="~{navbar}"></div>
+<div class="container">
+    <!-- Верхній банер з юзернеймом користувача -->
+    <div class="header">
+        <div th:text="${user.username}">Username</div>
+    </div>
+
+    <!-- Основний вміст зі списком атрибутів користувача -->
+    <div class="content">
+        <!-- Електронна пошта користувача -->
+        <div class="user-info-row">
+            <strong> <i style="color: royalblue;" class="fa fa-envelope-o" aria-hidden="true"></i> Email:</strong> <span th:text="${user.email}">example@example.com</span>
+        </div>
+
+        <!-- Баланс користувача -->
+        <div class="user-info-row d-flex justify-content-between">
+            <strong> <i style="color: forestgreen" class="fa fa-money" aria-hidden="true"></i> Balance:</strong> <span th:text="${user.balance}">0.00</span>
+            <!-- Кнопка для поповнення балансу -->
+            <a th:href="@{/user/top-up}" class="btn btn-primary">Top Up</a>
+        </div>
+
+        <!-- Роль користувача -->
+        <div class="user-info-row">
+            <strong> <i class="fa fa-user-o" aria-hidden="true"></i> Role:</strong> <span th:text="${user.role}">USER_ROLE</span>
+        </div>
+
+        <!-- Ігри користувача -->
+        <div class="user-info-row">
+            <strong> <i class="fa fa-gamepad" aria-hidden="true"></i> Games:</strong>
+            <!-- Посилання на ігри користувача -->
+            <a th:href="@{/game-boot/user/games}">View Games</a>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

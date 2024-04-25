@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/search.js}" th:inline="javascript"></script>
+</head>
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" th:href="@{/game-boot/main}">
+        <i class="fa fa-gamepad" aria-hidden="true"></i>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <div style="position: relative;">
+            <input oninput="performSearch()" id="search-input" class="form-control mr-4-sm-2" type="text"
+                   placeholder="Search" aria-label="Search" name="name">
+            <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>-->
+            <div id="search-results"
+                 style="position: absolute; z-index: 1000; background-color: white; border: 1px solid #ccc; max-height: 200px; overflow-y: auto;">
+            </div>
+        </div>
+        <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/game-boot/main}">Main</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-expanded="false">
+                    Genre
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item"
+                       th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[0]})}">Action</a>
+                    <a class="dropdown-item"
+                       th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[1]})}">Strategy</a>
+                    <a class="dropdown-item" th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[2]})}">Role
+                        playing</a>
+                    <a class="dropdown-item"
+                       th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[3]})}">Adventure</a>
+                    <a class="dropdown-item"
+                       th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[4]})}">Simulator</a>
+                    <a class="dropdown-item" th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[5]})}">Sport and
+                        racing</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/game-boot/user/games}">My games</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/game-boot/user/account}">My account</a>
+            </li>
+        </ul>
+        <a th:href="@{/logout}">
+            <button class="btn btn-dark">Log out</button>
+        </a>
+    </div>
+</nav>
+</body>
+</html>
+
+

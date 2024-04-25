@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GameBoot</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/search.js}" th:inline="javascript"></script>
+    <style>
+        .out-of-stock {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{navbar::navbar}"></div>
+<div class="container">
+    <h1 th:text="${text}">All Games</h1>
+
+    <!-- Цикл для відображення всіх ігор -->
+    <div class="row">
+        <div th:each="game : ${games}" class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body" th:classappend="${game.gameDetail.count == 0 ? ' out-of-stock' : ''}">
+                    <!-- Відображення назви гри з посиланням на гру -->
+                    <h5 class="card-title">
+                        <a th:href="@{/game-boot/game/{gameId} (gameId=${game.gameId})}" th:text="${game.name}"></a>
+                    </h5>
+                    <!-- Відображення ціни гри -->
+                    <p class="card-text" th:text="${game.gameDetail.price == 0 ? 'Free to play' : game.gameDetail.price + ' ₴'}"></p>
+                    <!-- Відображення року випуску гри -->
+                    <p class="card-text" th:text="${'Year: ' + game.gameDetail.yearOfProduction}"></p>
+
+                    <!-- Відображення жанрів гри -->
+                    <p class="card-text">
+                        <strong>Genres:</strong>
+                        <span th:each="genre, iterStat  : ${game.genres}">
+                                <span th:text="${genre.value}"></span>
+                            <span th:if="${!iterStat.last}" th:text="${',' }"></span>
+                            </span>
+                    </p>
+
+                    <!-- Відображення кількості гри -->
+                    <p class="card-text" th:text="${'Available: ' + game.gameDetail.count}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
