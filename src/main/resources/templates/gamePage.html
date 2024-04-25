@@ -111,7 +111,7 @@
 
                 <div th:if="${balance < game.gameDetail.price}" id="balance-warning" style="color: red;">
                     <p>Insufficient balance. Please top up your balance.</p>
-                    <a th:href="@{/game-boot/user/topUp}">
+                    <a th:href="@{/game-boot/user/account}">
                         <button class="btn btn-primary">Top Up Balance</button>
                     </a>
                 </div>

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -63,5 +64,13 @@ public class UserService implements UserDetailsService {
 
     public User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User not found"));
+    }
+
+    @Transactional
+    public void topUpBalance(Double amount, User user) throws InterruptedException {
+        user.setBalance(user.getBalance() + amount);
+        userRepository.save(user);
+        /*userRepository.topUpUserBalance(amount, user.getUserId());*/
+        Thread.sleep(2000);
     }
 }

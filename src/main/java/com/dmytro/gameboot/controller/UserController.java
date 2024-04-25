@@ -6,8 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,5 +19,13 @@ public class UserController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
         return "userAccount";
+    }
+
+    @PostMapping("/top-up")
+    public String topUpBalance(@RequestParam Double amount, Model model) throws InterruptedException {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userService.topUpBalance(amount, user);
+        model.addAttribute("user", user);
+        return "redirect:/game-boot/user/account";
     }
 }
