@@ -3,6 +3,7 @@ package com.dmytro.gameboot;
 import com.dmytro.gameboot.domain.*;
 import com.dmytro.gameboot.service.GameDetailService;
 import com.dmytro.gameboot.service.GameService;
+import com.dmytro.gameboot.service.UserGameService;
 import com.dmytro.gameboot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -11,8 +12,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -22,6 +25,8 @@ public class GameBootApplication implements CommandLineRunner {
 
     private final GameService gameService;
     private final GameDetailService gameDetailService;
+
+    private final UserGameService userGameService;
 
     private final PasswordEncoder encoder;
 
@@ -57,7 +62,7 @@ public class GameBootApplication implements CommandLineRunner {
                 .price(0.00)
                 .yearOfProduction(2017)
                 .build();
-        Game pubg = createGame("PUBG: BATTLEGROUNDS",genres, pubgDetail);
+        Game pubg = createGame("PUBG: BATTLEGROUNDS", genres, pubgDetail);
         gameDetailService.save(pubgDetail);
         pubgDetail.setGame(pubg);
         gameService.save(pubg);
@@ -177,6 +182,7 @@ public class GameBootApplication implements CommandLineRunner {
         genres.clear();
 
 
+        List<UserGame> userGamesList = new ArrayList<>();
         List<Game> games = new ArrayList<>();
         games.add(forza);
         games.add(witcher);
@@ -190,9 +196,60 @@ public class GameBootApplication implements CommandLineRunner {
                 .balance(1000.00)
                 .enabled(true)
                 .role(Role.ADMIN)
-                .games(games)
+                /*.game(games)*/
                 .build();
+        UserGame forzaGame = UserGame.builder()
+                .user(tyler)
+                .game(forza)
+                .gameCode(UUID.randomUUID().toString())
+                .buyAt(LocalDateTime.now())
+                .gamePrice(450.00)
+                .build();
+        userGamesList.add(forzaGame);
         userService.save(tyler);
+        tyler.setGame(userGamesList);
+        userGameService.save(forzaGame);
+        userService.save(tyler);
+        UserGame witcherGame = UserGame.builder()
+                .user(tyler)
+                .game(witcher)
+                .gameCode(UUID.randomUUID().toString())
+                .buyAt(LocalDateTime.now())
+                .gamePrice(700.00)
+                .build();
+        userGamesList.add(witcherGame);
+        /*userService.save(tyler);
+        tyler.setGame(userGamesList);*/
+        userGameService.save(witcherGame);
+        /*userService.save(tyler);*/
+        UserGame civGame = UserGame.builder()
+                .user(tyler)
+                .game(civ)
+                .gameCode(UUID.randomUUID().toString())
+                .buyAt(LocalDateTime.now())
+                .gamePrice(1500.00)
+                .build();
+        userGamesList.add(civGame);
+        /*userService.save(tyler);
+        tyler.setGame(userGamesList);*/
+        userGameService.save(civGame);
+        /*userService.save(tyler);*/
+        UserGame cpGame = UserGame.builder()
+                .user(tyler)
+                .game(cp)
+                .gameCode(UUID.randomUUID().toString())
+                .buyAt(LocalDateTime.now())
+                .gamePrice(670.00)
+                .build();
+        userGamesList.add(cpGame);
+        userService.save(tyler);
+        tyler.setGame(userGamesList);
+        userGameService.save(cpGame);
+        userService.save(tyler);
+
+
+
+        userGamesList.clear();
         games.clear();
 
         games.add(pubg);
@@ -209,14 +266,75 @@ public class GameBootApplication implements CommandLineRunner {
                 .balance(3542.00)
                 .enabled(true)
                 .role(Role.USER)
-                .games(games)
+                /*.games(games)*/
                 .build();
-        userService.save(rayan);
+        /*userService.save(rayan);*/
 
+        UserGame pubgGame = UserGame.builder()
+                .user(rayan)
+                .game(pubg)
+                .gameCode(UUID.randomUUID().toString())
+                .buyAt(LocalDateTime.now())
+                .gamePrice(0.0)
+                .build();
+        userGamesList.add(pubgGame);
+        userService.save(rayan);
+        rayan.setGame(userGamesList);
+        userGameService.save(pubgGame);
+        userService.save(rayan);
+        UserGame gtaGame = UserGame.builder()
+                .user(rayan)
+                .game(gta)
+                .gameCode(UUID.randomUUID().toString())
+                .buyAt(LocalDateTime.now())
+                .gamePrice(gta.getGameDetail().getPrice())
+                .build();
+        userGamesList.add(gtaGame);
+        userGameService.save(gtaGame);
+        UserGame witcherGame2 = UserGame.builder()
+                .user(rayan)
+                .game(witcher)
+                .gameCode(UUID.randomUUID().toString())
+                .buyAt(LocalDateTime.now())
+                .gamePrice(witcher.getGameDetail().getPrice())
+                .build();
+        userGamesList.add(witcherGame);
+        userGameService.save(witcherGame);
+        UserGame codGame = UserGame.builder()
+                .user(rayan)
+                .game(cod)
+                .gameCode(UUID.randomUUID().toString())
+                .buyAt(LocalDateTime.now())
+                .gamePrice(cod.getGameDetail().getPrice())
+                .build();
+        userGamesList.add(codGame);
+        userGameService.save(codGame);
+        UserGame cpGame2 = UserGame.builder()
+                .user(rayan)
+                .game(cp)
+                .gameCode(UUID.randomUUID().toString())
+                .buyAt(LocalDateTime.now())
+                .gamePrice(cp.getGameDetail().getPrice())
+                .build();
+        userGamesList.add(cpGame2);
+        userGameService.save(cpGame2);
+        UserGame acvGame = UserGame.builder()
+                .user(rayan)
+                .game(acv)
+                .gameCode(UUID.randomUUID().toString())
+                .buyAt(LocalDateTime.now())
+                .gamePrice(acv.getGameDetail().getPrice())
+                .build();
+        userGamesList.add(acvGame);
+        userGameService.save(acvGame);
+        userService.save(rayan);
+        rayan.setGame(userGamesList);
+        userGameService.save(gtaGame);
+        userService.save(rayan);
 
     }
 
-    private Game createGame(String name, List<Genre> genres, GameDetail gameDetail){
+    private Game createGame(String name, List<Genre> genres, GameDetail gameDetail) {
         return Game.builder()
                 .name(name)
                 .genres(genres)

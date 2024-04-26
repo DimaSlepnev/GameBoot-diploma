@@ -28,7 +28,11 @@ public class Game {
     @JsonManagedReference
     private GameDetail gameDetail;
 
-    @ManyToMany(mappedBy = "games")
+    /*@ManyToMany(mappedBy = "games")
     @JsonBackReference
-    private List<User> users;
+    private List<User> users;*/
+
+    @OneToMany(mappedBy = "game")
+    @JsonManagedReference
+    private List<UserGame> users;
 }

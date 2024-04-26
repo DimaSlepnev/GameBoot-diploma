@@ -118,7 +118,8 @@
 
             </div>
             <div class="modal-footer">
-                <form th:action="@{game-boot/user/buy-game}" th:method="POST">
+                <form th:action="@{/game-boot/user/buy-game}" th:method="POST">
+                    <input type="hidden" th:value="${game.gameId}" name="gameId">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button th:if="${balance < game.gameDetail.price || game.gameDetail.count < 1}" type="button"
                             class="btn btn-success"

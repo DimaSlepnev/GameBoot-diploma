@@ -1,17 +1,20 @@
 package com.dmytro.gameboot.service;
 
+import com.dmytro.gameboot.domain.Game;
 import com.dmytro.gameboot.domain.User;
+import com.dmytro.gameboot.domain.UserGame;
 import com.dmytro.gameboot.email.EmailSender;
 import com.dmytro.gameboot.repository.UserRepository;
 import com.dmytro.gameboot.service.token.ConfirmationToken;
 import com.dmytro.gameboot.service.token.ConfirmationTokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -23,6 +26,9 @@ public class UserService implements UserDetailsService {
     private final static String USER_NOT_FOUND_MSG = "User with username %s not found";
     private final UserRepository userRepository;
     private final ConfirmationTokenService confirmationTokenService;
+    private final GameService gameService;
+    private final UserGameService userGameService;
+    private final EmailSender emailSender;
 
 
     @Override
@@ -67,10 +73,47 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void topUpBalance(Double amount, User user) throws InterruptedException {
+    public void topUpBalance(Double amount, User user) {
         user.setBalance(user.getBalance() + amount);
         userRepository.save(user);
-        /*userRepository.topUpUserBalance(amount, user.getUserId());*/
-        Thread.sleep(2000);
+    }
+
+    @Transactional
+    public boolean buyGame(Long gameId) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Game game = gameService.findGameById(gameId);
+        if (game.getGameDetail().getCount() > 0 && user.getBalance() >= game.getGameDetail().getPrice()) {
+            String gameCode = UUID.randomUUID().toString();
+            user.setBalance(user.getBalance() - game.getGameDetail().getPrice());
+            UserGame userGame = UserGame.builder()
+                    .gameCode(gameCode)
+                    .buyAt(LocalDateTime.now())
+                    .gamePrice(game.getGameDetail().getPrice())
+                    .build();
+            user.getGame().add(userGame);
+            game.getGameDetail().setCount(game.getGameDetail().getCount() - 1);
+            userGameService.save(userGame);
+            userGame.setUser(user);
+            userGame.setGame(game);
+            userRepository.save(user);
+            gameService.save(game);
+            userGameService.save(userGame);
+            sendGameCodeToEmail(game, user, userGame);
+        }
+        return true;
+    }
+
+    private void sendGameCodeToEmail(Game game, User user, UserGame userGame) {
+        String subject = "Message about purchase " + game.getName();
+        Context context = new Context();
+        context.setVariable("subject", subject);
+        context.setVariable("name", user.getUsername());
+        context.setVariable("gameCode", userGame.getGameCode());
+       emailSender.send(
+                user.getEmail(),
+                subject,
+                "gamePurchaseEmail",
+                context
+        );
     }
 }

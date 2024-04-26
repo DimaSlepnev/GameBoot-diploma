@@ -22,10 +22,16 @@ public class UserController {
     }
 
     @PostMapping("/top-up")
-    public String topUpBalance(@RequestParam Double amount, Model model) throws InterruptedException {
+    public String topUpBalance(@RequestParam Double amount, Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userService.topUpBalance(amount, user);
         model.addAttribute("user", user);
         return "redirect:/game-boot/user/account";
+    }
+
+    @PostMapping("/buy-game")
+    public String buyGame(@RequestParam("gameId") Long gameId, Model model){
+        userService.buyGame(gameId);
+        return "redirect:/game-boot/user/games";
     }
 }

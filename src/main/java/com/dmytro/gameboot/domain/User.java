@@ -34,14 +34,20 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    /*@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "User_Game",
             joinColumns = {@JoinColumn(name="user_id") },
             inverseJoinColumns = {@JoinColumn(name = "game_id")}
     )
     @JsonManagedReference
-    private List<Game> games;
+    private List<Game> games;*/
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    List<UserGame> game;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -71,19 +77,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", balance=" + balance +
-                ", enabled=" + enabled +
-                ", role=" + role +
-                ", games=" + games +
-                '}';
     }
 }

@@ -22,6 +22,7 @@
 <div class="container">
     <h1>My games</h1>
 
+    <p th:text="${'Total amount: ' + games.size}"></p>
     <!-- Цикл для відображення всіх ігор -->
     <div class="row">
         <div th:each="game : ${games}" class="col-md-4 mb-4">
@@ -29,19 +30,23 @@
                 <div class="card-body">
                     <!-- Відображення назви гри з посиланням на гру -->
                     <h5 class="card-title">
-                        <a th:href="@{/game-boot/game/{gameId} (gameId=${game.gameId})}" th:text="${game.name}"></a>
+                        <a th:href="@{/game-boot/game/{gameId} (gameId=${game.game.gameId})}" th:text="${game.game.name}"></a>
                     </h5>
                     <!-- Відображення ціни гри -->
-                    <p class="card-text" th:text="${'Year: ' + game.gameDetail.yearOfProduction}"></p>
+                    <p class="card-text" th:text="${'Year: ' + game.game.gameDetail.yearOfProduction}"></p>
 
                     <!-- Відображення жанрів гри -->
                     <p class="card-text">
                         <strong>Genres:</strong>
-                        <span th:each="genre, iterStat  : ${game.genres}">
+                        <span th:each="genre, iterStat  : ${game.game.genres}">
                                 <span th:text="${genre.value}"></span>
                             <span th:if="${!iterStat.last}" th:text="${',' }"></span>
                             </span>
                     </p>
+
+                    <p class="card-text" th:text="${'Buy at: ' + #temporals.format(game.buyAt, 'dd.MM.yyyy')}"></p>
+
+                    <p class="card-text" th:text="${'Price: ' + game.gamePrice}"></p>
                 </div>
             </div>
         </div>

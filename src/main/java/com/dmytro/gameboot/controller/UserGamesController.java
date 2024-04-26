@@ -2,6 +2,7 @@ package com.dmytro.gameboot.controller;
 
 import com.dmytro.gameboot.domain.Game;
 import com.dmytro.gameboot.domain.User;
+import com.dmytro.gameboot.domain.UserGame;
 import com.dmytro.gameboot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +22,8 @@ public class UserGamesController {
     @GetMapping
     public String getAllGamesOfUser(Model model){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Game> games = userService.findUserById(user.getUserId()).getGames();
+        List<UserGame> games = userService.findUserById(user.getUserId()).getGame();
+
         model.addAttribute("games", games);
         return "userGames";
     }
