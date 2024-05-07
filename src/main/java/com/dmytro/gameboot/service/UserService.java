@@ -1,6 +1,7 @@
 package com.dmytro.gameboot.service;
 
 import com.dmytro.gameboot.domain.Game;
+import com.dmytro.gameboot.domain.Role;
 import com.dmytro.gameboot.domain.User;
 import com.dmytro.gameboot.domain.UserGame;
 import com.dmytro.gameboot.email.EmailSender;
@@ -8,6 +9,8 @@ import com.dmytro.gameboot.repository.UserRepository;
 import com.dmytro.gameboot.service.token.ConfirmationToken;
 import com.dmytro.gameboot.service.token.ConfirmationTokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -103,6 +106,10 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    public Page<User> getAllUsers(Pageable pageable){
+        return userRepository.findAll(pageable);
+    }
+
     private void sendGameCodeToEmail(Game game, User user, UserGame userGame) {
         String subject = "Message about purchase " + game.getName();
         Context context = new Context();
@@ -115,5 +122,12 @@ public class UserService implements UserDetailsService {
                 "gamePurchaseEmail",
                 context
         );
+    }
+
+    @Transactional
+    public void promoteUserToAdmin(String email) {
+        User user = userRepository.findUserByEmail(email);
+        user.setRole(Role.ADMIN);
+        userRepository.save(user);
     }
 }

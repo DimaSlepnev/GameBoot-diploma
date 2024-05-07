@@ -1,6 +1,8 @@
 package com.dmytro.gameboot.repository;
 
 import com.dmytro.gameboot.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +27,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u SET u.balance = u.balance + :amount WHERE u.userId = :userId")
     void topUpUserBalance(@Param("amount") Double amount, @Param("userId") Long userId);
+
+    Page<User> findAll(Pageable pageable);
+
+    User findUserByEmail(String email);
 }

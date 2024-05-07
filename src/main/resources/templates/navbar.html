@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome CSS -->
@@ -21,7 +21,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <div style="position: relative;">
             <input oninput="performSearch()" id="search-input" class="form-control mr-4-sm-2" type="text"
-                   placeholder="Search" aria-label="Search" name="name">
+                   placeholder="Search game" aria-label="Search" name="name">
             <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>-->
             <div id="search-results"
                  style="position: absolute; z-index: 1000; background-color: white; border: 1px solid #ccc; max-height: 200px; overflow-y: auto;">
@@ -47,7 +47,8 @@
                        th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[3]})}">Adventure</a>
                     <a class="dropdown-item"
                        th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[4]})}">Simulator</a>
-                    <a class="dropdown-item" th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[5]})}">Sport and
+                    <a class="dropdown-item" th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[5]})}">Sport
+                        and
                         racing</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
@@ -59,8 +60,11 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/game-boot/user/account}">My account</a>
             </li>
+            <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                <a class="nav-link" th:href="@{/game-boot/admin}">Admin console</a>
+            </li>
         </ul>
-        <a th:href="@{/logout}">
+        <a sec:authorize="isAuthenticated()" th:href="@{/logout}">
             <button class="btn btn-dark">Log out</button>
         </a>
     </div>
