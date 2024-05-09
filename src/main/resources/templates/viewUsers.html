@@ -6,13 +6,32 @@
     <title>Admin Console - Users</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/searchBox.css}">
 </head>
 
 <body>
 <div th:insert="~{navbar::navbar}"></div>
-<div class="container">
-    <h2>All Users</h2>
 
+<div class="container">
+    <div class="row justify-content-center">
+        <form th:action="@{/game-boot/admin/search}" th:method="GET" class="w-100">
+            <div id="custom-search-input">
+                <div class="input-group">
+                    <!-- Розтягніть поле пошуку на всю ширину контейнера -->
+                    <input type="text" name="searchCriteria" class="search-query form-control" placeholder="Search by username or email" />
+                    <div class="input-group-append">
+                        <!-- Зробіть іконку пошуку привабливого кольору -->
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container">
     <p>Total records: <span th:text="${userPage.totalElements}"></span></p>
 
     <table class="table">
@@ -48,6 +67,10 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            <div style="display: flex; align-items: center; color: red;">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                <span style="margin-left: 10px;">This operation is irreversible.</span>
+                            </div>
                             <p>Are you sure you want to promote <strong th:text="${u.username}"></strong> to admin?</p>
                             <p>Email: <strong th:text="${u.email}"></strong></p>
                         </div>
@@ -93,15 +116,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script th:inline="javascript">
-    function openConfirmationModal(button) {
-        const username = button.getAttribute('data-username');
-        const email = button.getAttribute('data-email');
-        document.getElementById('username').innerText = username;
-        document.getElementById('email').innerText = email;
-        document.getElementById('promotionEmail').value = email;
-    }
-</script>
 </body>
 
 </html>

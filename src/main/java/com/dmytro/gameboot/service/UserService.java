@@ -106,7 +106,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public Page<User> getAllUsers(Pageable pageable){
+    public Page<User> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 
@@ -116,7 +116,7 @@ public class UserService implements UserDetailsService {
         context.setVariable("subject", subject);
         context.setVariable("name", user.getUsername());
         context.setVariable("gameCode", userGame.getGameCode());
-       emailSender.send(
+        emailSender.send(
                 user.getEmail(),
                 subject,
                 "gamePurchaseEmail",
@@ -129,5 +129,25 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findUserByEmail(email);
         user.setRole(Role.ADMIN);
         userRepository.save(user);
+        sendMessageAboutPromotionToUser(user);
+    }
+
+    private void sendMessageAboutPromotionToUser(User user) {
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String subject = "You have been promoted to admin!";
+        Context context = new Context();
+        context.setVariable("subject", subject);
+        context.setVariable("userName", user.getUsername());
+        context.setVariable("promotedBy", currentUser.getUsername());
+        emailSender.send(
+                user.getEmail(),
+                subject,
+                "promoteToAdminEmail",
+                context
+        );
+    }
+
+    public Page<User> findAllByUsernameOrEmailContaining(String criteria, Pageable pageable) {
+        return userRepository.findAllByUsernameContainingIgnoreCaseOrEmailContainingIgnoreCase(criteria, pageable);
     }
 }

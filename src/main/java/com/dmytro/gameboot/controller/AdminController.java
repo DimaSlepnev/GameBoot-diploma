@@ -1,7 +1,6 @@
 package com.dmytro.gameboot.controller;
 
 import com.dmytro.gameboot.domain.User;
-import com.dmytro.gameboot.dto.RegistrationRequest;
 import com.dmytro.gameboot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,8 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -40,6 +37,15 @@ public class AdminController {
     public String promoteToAdmin(@ModelAttribute("email") String email){
         userService.promoteUserToAdmin(email);
         return "redirect:/game-boot/admin/view-users";
+    }
+
+    @GetMapping("/search")
+    public String searchByCriteria(@ModelAttribute("searchCriteria") String criteria,
+                                   @PageableDefault Pageable pageable,
+                                   Model model){
+        Page<User> userPage = userService.findAllByUsernameOrEmailContaining(criteria, pageable);
+        model.addAttribute("userPage", userPage);
+        return "viewUsers";
     }
 
 }
