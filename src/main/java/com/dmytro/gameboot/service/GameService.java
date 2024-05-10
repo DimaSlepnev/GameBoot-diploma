@@ -4,6 +4,8 @@ import com.dmytro.gameboot.domain.Game;
 import com.dmytro.gameboot.domain.Genre;
 import com.dmytro.gameboot.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,5 +34,13 @@ public class GameService {
 
     public List<Game> getGamesByGenre(Genre genre) {
         return gameRepository.getGamesByGenre(genre);
+    }
+
+    public Page<Game> getAllGamesWithDetails(Pageable pageable) {
+        return gameRepository.findAllGamesWithGameDetails(pageable);
+    }
+
+    public Page<Game> getGameByNameWithGameDetails(String name, Pageable pageable){
+        return gameRepository.getGameByNameWithGameDetails(name, pageable);
     }
 }

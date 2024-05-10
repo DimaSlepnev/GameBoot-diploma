@@ -16,11 +16,11 @@ public class MainController {
 
     private final GameService gameService;
 
-    private final HttpSession session;
+    private HttpSession session;
 
     @GetMapping
     public String main(Model model) {
-        model.addAttribute("games",gameService.findAll());
+        model.addAttribute("games", gameService.findAll());
         model.addAttribute("text", "All games");
         session.setAttribute("genres", Genre.values());
         return "main";

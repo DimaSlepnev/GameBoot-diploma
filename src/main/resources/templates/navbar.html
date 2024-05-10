@@ -60,8 +60,19 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/game-boot/user/account}">My account</a>
             </li>
-            <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
-                <a class="nav-link" th:href="@{/game-boot/admin}">Admin console</a>
+            <li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownAdmin" role="button" data-toggle="dropdown"
+                   aria-expanded="false">
+                    Admin Actions
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item"
+                       th:href="@{/game-boot/admin/view-users}">View Users</a>
+                    <a class="dropdown-item"
+                       th:href="@{/game-boot/admin/manage-games}">Manage Games</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
             </li>
         </ul>
         <a sec:authorize="isAuthenticated()" th:href="@{/logout}">
