@@ -32,7 +32,15 @@
 
 <div class="container">
     <p>Total records: <span th:text="${gamePage.totalElements}"></span></p>
-
+    <div class="container">
+        <div style="float: right; display: flex; align-items: center;">
+            <form th:action="@{/game-boot/admin/add-game}" th:method="GET">
+            <button class="btn btn-success ml-3" type="submit">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add game
+            </button>
+            </form>
+        </div>
+    </div>
     <table class="table">
         <thead>
         <tr>

@@ -3,8 +3,10 @@ package com.dmytro.gameboot.controller;
 import com.dmytro.gameboot.domain.Game;
 import com.dmytro.gameboot.domain.GameDetail;
 import com.dmytro.gameboot.domain.User;
+import com.dmytro.gameboot.dto.GameRequest;
 import com.dmytro.gameboot.service.GameService;
 import com.dmytro.gameboot.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -94,6 +97,22 @@ public class AdminController {
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("criteria", criteria);
         return "viewGamesSearchResult";
+    }
+
+    @GetMapping("/add-game")
+    public String addGamePage(Model model){
+        model.addAttribute("gameRequest", new GameRequest());
+        return "addGame";
+    }
+
+    @PostMapping("/add-game")
+    public String addGame(@ModelAttribute("gameRequest") @Valid GameRequest gameRequest,
+                          BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "addGame";
+        }
+        gameService.save(gameRequest);
+        return "redirect:/game-boot/admin/manage-games";
     }
 
 }

@@ -16,7 +16,7 @@ public class MainController {
 
     private final GameService gameService;
 
-    private HttpSession session;
+    private final HttpSession session;
 
     @GetMapping
     public String main(Model model) {
