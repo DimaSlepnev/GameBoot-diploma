@@ -18,10 +18,10 @@ public class RegistrationRequest {
     private String username;
 
     @NotEmpty(message = "Email must be not empty")
-    @Email(message = "This email has been already taken")   
+    @Email(message = "This is not email")
     private String email;
 
     @NotEmpty(message = "Password must be not empty")
-    @Size(min = 5, message = "Password must contain minimum 5 characters")
+    @Size(min = 8, message = "Password must contain minimum 8 characters")
     private String password;
 }

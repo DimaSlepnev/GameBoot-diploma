@@ -7,10 +7,14 @@ import com.dmytro.gameboot.service.RegistrationService;
 import com.dmytro.gameboot.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
 
 @Controller
 @RequestMapping("/game-boot/registration")
@@ -31,12 +35,19 @@ public class UserRegistrationController {
 
     @PostMapping
     public String register(@ModelAttribute("registerBody") @Valid RegistrationRequest request,
-                           BindingResult bindingResult) {
+                           BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()){
             return "registration";
         }
-        registrationService.register(request);
-        return "login";
+        try {
+            registrationService.register(request);
+            return "login";
+        } catch (IllegalStateException e) {
+            model.addAttribute("userNameAlreadyTaken", 1);
+        } catch (DataIntegrityViolationException ex){
+            model.addAttribute("emailAlreadyTaken", 1);
+        }
+        return "registration";
     }
 
     @GetMapping(path = "/confirm")

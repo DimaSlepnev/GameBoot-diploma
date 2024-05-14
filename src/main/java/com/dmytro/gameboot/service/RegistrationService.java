@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 @Service
@@ -30,10 +31,10 @@ public class RegistrationService {
 
 
     public String register(RegistrationRequest request) {
-        boolean isValidEmail = emailValidator.test(request.getUsername());
-        if (!isValidEmail) {
+        /*boolean isValidUserName = emailValidator.test(request.getUsername());
+        if (!isValidUserName) {
             throw new IllegalStateException("Username not valid");
-        }
+        }*/
         String pass = encoder.encode(request.getPassword());
         User user = User.builder()
                 .username(request.getUsername())

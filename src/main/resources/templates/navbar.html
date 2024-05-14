@@ -22,7 +22,6 @@
         <div style="position: relative;">
             <input oninput="performSearch()" id="search-input" class="form-control mr-4-sm-2" type="text"
                    placeholder="Search game" aria-label="Search" name="name">
-            <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>-->
             <div id="search-results"
                  style="position: absolute; z-index: 1000; background-color: white; border: 1px solid #ccc; max-height: 200px; overflow-y: auto;">
             </div>
@@ -51,7 +50,7 @@
                         and
                         racing</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[6]})}">Other</a>
                 </div>
             </li>
             <li class="nav-item">
@@ -77,6 +76,9 @@
         </ul>
         <a sec:authorize="isAuthenticated()" th:href="@{/logout}">
             <button class="btn btn-dark">Log out</button>
+        </a>
+        <a sec:authorize="!isAuthenticated()" th:href="@{/game-boot/login}">
+            <button type="button" class="btn btn-info">Log in</button>
         </a>
     </div>
 </nav>

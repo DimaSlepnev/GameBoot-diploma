@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Game</title>
+    <title>Edit Game</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" th:href="@{/css/searchBox.css}">
@@ -11,58 +11,48 @@
 <body>
 <div th:insert="~{navbar::navbar}"></div>
 <div class="container mt-4">
-    <h2>Add Game</h2>
-    <form th:action="@{/game-boot/admin/add-game}" th:method="POST" th:object="${gameRequest}" enctype="multipart/form-data">
-
-        <div class="form-group">
-            <label for="gamePhoto">Game Photo</label>
-            <input type="file" id="gamePhoto" name="file" class="form-control-file">
-        </div>
-
-
+    <h2>Edit Game</h2>
+    <form th:action="@{/game-boot/admin/edit-game}" th:method="POST" th:object="${gameRequest}">
+        <input type="hidden" th:value="${gameRequest.gameId}" name="gameId">
+        <!-- Назва гри -->
         <div class="form-group">
             <label for="gameName">Game Name</label>
-            <input type="text" th:field="*{name}"  id="gameName" name="name" class="form-control">
+            <input type="text" th:value="${gameRequest.name}" th:field="*{name}"  id="gameName" name="name" class="form-control">
             <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             <div style="color: red;" th:if="${gameAlreadyExist == 1}">Game with such name already exist</div>
         </div>
 
-
         <div class="form-group">
             <label>Genre</label><br>
-            <div style="color: red" th:if="${#fields.hasErrors('genres')}" th:errors="*{genres}"></div>
             <div th:each="genre : ${session.genres}">
                 <div class="form-check form-check-inline">
                     <input th:field="*{genres}" class="form-check-input" type="checkbox" th:id="'genre_' + ${genre}" th:name="genres" th:value="${genre}">
                     <label class="form-check-label" th:for="'genre_' + ${genre}" th:text="${genre}"></label>
                 </div>
             </div>
+            <div style="color: red" th:if="${#fields.hasErrors('genres')}" th:errors="*{genres}"></div>
         </div>
-
 
         <div class="form-group">
             <label for="gamePrice">Price</label>
-            <input type="number" th:field="*{price}"  id="gamePrice" step="0.01" name="price" class="form-control">
+            <input type="number" th:value="${gameRequest.price}" th:field="*{price}"  id="gamePrice" step="0.01" name="price" class="form-control">
             <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
         </div>
 
-
         <div class="form-group">
             <label for="gameYear">Year of Production</label>
-            <input type="number" th:field="*{yearOfProduction}"  id="gameYear" name="year" class="form-control">
+            <input type="number" th:value="${gameRequest.yearOfProduction}" th:field="*{yearOfProduction}"  id="gameYear" name="year" class="form-control">
             <div style="color: red" th:if="${#fields.hasErrors('yearOfProduction')}" th:errors="*{yearOfProduction}"></div>
 
         </div>
 
-
         <div class="form-group">
             <label for="gameCount">Count</label>
-            <input type="number" id="gameCount" name="count" th:field="*{count}" class="form-control">
+            <input type="number" th:value="${gameRequest.count}" id="gameCount" name="count" th:field="*{count}" class="form-control">
             <div style="color: red" th:if="${#fields.hasErrors('count')}" th:errors="*{count}"></div>
         </div>
 
-
-        <button type="submit" class="btn btn-success">Add Game</button>
+        <button type="submit" class="btn btn-success">Confirm</button>
     </form>
 </div>
 

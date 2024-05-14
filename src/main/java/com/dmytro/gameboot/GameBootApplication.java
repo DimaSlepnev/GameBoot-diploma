@@ -48,6 +48,7 @@ public class GameBootApplication implements CommandLineRunner {
                 .yearOfProduction(2021)
                 .build();
         Game forza = createGame("Forza Horizon 5", genres, forzaDetail);
+        forza.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Forza Horizon 5.jpg");
         gameDetailService.save(forzaDetail);
         forzaDetail.setGame(forza);
         gameService.save(forza);
@@ -63,6 +64,7 @@ public class GameBootApplication implements CommandLineRunner {
                 .yearOfProduction(2017)
                 .build();
         Game pubg = createGame("PUBG: BATTLEGROUNDS", genres, pubgDetail);
+        pubg.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/PUBG BATTLEGROUNDS.jpg");
         gameDetailService.save(pubgDetail);
         pubgDetail.setGame(pubg);
         gameService.save(pubg);
@@ -77,6 +79,7 @@ public class GameBootApplication implements CommandLineRunner {
                 .yearOfProduction(2015)
                 .build();
         Game witcher = createGame("The Witcher 3: Wild Hunt", genres, witcherDetail);
+        witcher.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/The Witcher 3 Wild Hunt.jpg");
         gameDetailService.save(witcherDetail);
         witcherDetail.setGame(witcher);
         gameService.save(witcher);
@@ -91,6 +94,7 @@ public class GameBootApplication implements CommandLineRunner {
                 .yearOfProduction(2013)
                 .build();
         Game gta = createGame("Grand Theft Auto V", genres, gtaDetail);
+        gta.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Grand Theft Auto V.jpg");
         gameDetailService.save(gtaDetail);
         gtaDetail.setGame(gta);
         gameService.save(gta);
@@ -105,6 +109,7 @@ public class GameBootApplication implements CommandLineRunner {
                 .yearOfProduction(2011)
                 .build();
         Game minecraft = createGame("Minecraft", genres, minecraftDetail);
+        minecraft.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Minecraft.jpg");
         gameDetailService.save(minecraftDetail);
         minecraftDetail.setGame(minecraft);
         gameService.save(minecraft);
@@ -119,6 +124,7 @@ public class GameBootApplication implements CommandLineRunner {
                 .yearOfProduction(2019)
                 .build();
         Game cod = createGame("Call of Duty: Modern Warfare", genres, codDetail);
+        cod.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Call of Duty Modern Warfare.jpg");
         gameDetailService.save(codDetail);
         codDetail.setGame(cod);
         gameService.save(cod);
@@ -133,6 +139,7 @@ public class GameBootApplication implements CommandLineRunner {
                 .yearOfProduction(2020)
                 .build();
         Game cp = createGame("Cyberpunk 2077", genres, cpDetail);
+        cp.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Cyberpunk 2077.jpg");
         gameDetailService.save(cpDetail);
         cpDetail.setGame(cp);
         gameService.save(cp);
@@ -147,6 +154,7 @@ public class GameBootApplication implements CommandLineRunner {
                 .yearOfProduction(2015)
                 .build();
         Game rl = createGame("Rocket League", genres, rlDetail);
+        rl.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Rocket League.jpg");
         gameDetailService.save(rlDetail);
         rlDetail.setGame(rl);
         gameService.save(rl);
@@ -161,6 +169,7 @@ public class GameBootApplication implements CommandLineRunner {
                 .yearOfProduction(2016)
                 .build();
         Game civ = createGame("Civilization VI", genres, civDetail);
+        civ.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Civilization VI.jpg");
         gameDetailService.save(civDetail);
         civDetail.setGame(civ);
         gameService.save(civ);
@@ -175,6 +184,7 @@ public class GameBootApplication implements CommandLineRunner {
                 .yearOfProduction(2020)
                 .build();
         Game acv = createGame("Assassin's Creed Valhalla", genres, acvDetail);
+        acv.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Assassin's Creed Valhalla.jpg");
         gameDetailService.save(acvDetail);
         acvDetail.setGame(acv);
         gameService.save(acv);

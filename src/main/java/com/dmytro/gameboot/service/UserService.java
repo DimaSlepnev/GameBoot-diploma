@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -45,7 +46,7 @@ public class UserService implements UserDetailsService {
                 new IllegalStateException("Username not found"));
     }
 
-    public String singUp(User user) {
+    public String singUp(User user){
         boolean userExist = userRepository.findUserByUsername(user.getUsername()).isPresent();
         if (userExist) {
             throw new IllegalStateException("username already taken");

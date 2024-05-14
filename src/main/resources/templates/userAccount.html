@@ -7,7 +7,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        /* Стилі для верхнього банера */
+
         .header {
             background-color: #d9edf7;
             color: #31708f;
@@ -16,17 +16,17 @@
             text-align: left;
         }
 
-        /* Стилі для основного вмісту */
+
         .content {
             width: 50%;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* Стилі для рядків з атрибутами користувача */
+
         .user-info-row {
             padding: 10px 0;
-            border-bottom: 1px solid #ccc; /* Горизонтальна лінія після рядка */
+            border-bottom: 1px solid #ccc;
             text-align: left;
         }
     </style>
@@ -35,40 +35,40 @@
 <body>
 <div th:insert="~{navbar::navbar}"></div>
 <div class="container">
-    <!-- Верхній банер з юзернеймом користувача -->
+
     <div class="header">
         <div th:text="${user.username}">Username</div>
     </div>
 
-    <!-- Основний вміст зі списком атрибутів користувача -->
+
     <div class="content">
-        <!-- Електронна пошта користувача -->
+
         <div class="user-info-row">
             <strong> <i style="color: royalblue;" class="fa fa-envelope-o" aria-hidden="true"></i> Email:</strong> <span th:text="${user.email}">example@example.com</span>
         </div>
 
-        <!-- Баланс користувача -->
+
         <div class="user-info-row">
             <div class="d-flex justify-content-between">
-                <!-- Ліва частина: баланс користувача -->
+
                 <div>
                     <strong><i style="color: forestgreen;" class="fa fa-money" aria-hidden="true"></i> Balance:</strong>
                     <span th:text="${user.balance}">0.00</span>₴
                 </div>
-                <!-- Права частина: кнопка поповнення балансу -->
+
                 <a  type="button" class="btn btn-success" data-toggle="modal" data-target="#topUpModal">Top Up</a>
             </div>
         </div>
 
-        <!-- Роль користувача -->
+
         <div class="user-info-row">
             <strong> <i class="fa fa-user-o" aria-hidden="true"></i> Role:</strong> <span th:text="${user.role}">USER_ROLE</span>
         </div>
 
-        <!-- Ігри користувача -->
+
         <div class="user-info-row">
             <strong> <i class="fa fa-gamepad" aria-hidden="true"></i> My games:</strong>
-            <!-- Посилання на ігри користувача -->
+
             <a th:href="@{/game-boot/user/games}">View Games</a>
         </div>
     </div>
@@ -83,7 +83,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Форма для поповнення балансу -->
+
                 <form th:action="@{/game-boot/user/top-up}" th:method="POST">
                     <div class="form-group">
                         <label for="topUpAmount">Enter amount to top up:</label>

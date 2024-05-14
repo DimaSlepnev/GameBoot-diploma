@@ -32,7 +32,8 @@ public class WebSecurityConfig {
                         "/game-boot/registration/**",
                         "/game-boot/login",
                         "/game-boot/main",
-                        "/game-boot/game/**")
+                        "/game-boot/game/**",
+                        "/game-boot/v1/**")
                 .permitAll()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                 .permitAll()

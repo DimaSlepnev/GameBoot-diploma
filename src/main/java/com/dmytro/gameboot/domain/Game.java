@@ -18,6 +18,7 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long gameId;
 
+    @Column(unique = true)
     private String name;
 
     @ElementCollection(targetClass = Genre.class, fetch = FetchType.EAGER)
@@ -35,4 +36,6 @@ public class Game {
     @OneToMany(mappedBy = "game")
     @JsonManagedReference
     private List<UserGame> users;
+
+    private String photoUrl;
 }

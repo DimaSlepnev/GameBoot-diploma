@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private Long userId;
     private String username;
 
-    @Email
+    @Column(unique = true)
     private String email;
     private String password;
     private Double balance;

@@ -4,38 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Game Page</title>
-    <!--<link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet"
-          id="bootstrap-css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
 
-    <!-- Bootstrap CSS -->
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" th:src="@{/js/search.js}" th:inline="javascript"></script>
     <style>
-        /* Основні стилі сторінки гри */
+
         .game-container {
             display: flex;
             justify-content: center;
             padding: 20px;
         }
 
-        /* Ліва частина з фото гри */
+
         .game-image {
             max-width: 40%;
             margin-right: 20px;
         }
 
-        /* Права частина з інформацією про гру */
         .game-info {
             max-width: 60%;
         }
 
-        /* Стилі для кнопки покупки */
         .buy-button {
             margin-top: 20px;
             background-color: #4CAF50;
@@ -64,19 +58,18 @@
             <p>
         </div>
 
-        <!-- Права частина з інформацією про гру -->
         <div class="game-info">
-            <!-- Назва гри -->
+
             <h2 th:text="${game.name}"></h2>
 
-            <!-- Ціна гри -->
+
             <p><strong>Price:</strong> <span
                     th:text="${game.gameDetail.price == 0 ? 'Free' : game.gameDetail.price + ' ₴'}"></span></p>
 
-            <!-- Рік випуску гри -->
+
             <p><strong>Year:</strong> <span th:text="${game.gameDetail.yearOfProduction}"></span></p>
 
-            <!-- Жанри гри -->
+
             <p><strong>Genres:</strong>
                 <span th:each="genre, iterStat  : ${game.genres}">
                     <span th:text="${genre.value}"></span>
@@ -84,16 +77,16 @@
                 </span>
             </p>
 
-            <!-- Кількість гри -->
+
             <p><strong>Remain:</strong> <span th:text="${game.gameDetail.count}"></span></p>
 
-            <!-- Кнопка покупки -->
+
             <button class="buy-button" data-toggle="modal" data-target="#purchaseModal">Buy Now</button>
         </div>
     </div>
 </div>
 
-<!-- Modal -->
+
 <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="purchaseModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">

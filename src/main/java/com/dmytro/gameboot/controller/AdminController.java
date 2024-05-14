@@ -2,12 +2,14 @@ package com.dmytro.gameboot.controller;
 
 import com.dmytro.gameboot.domain.Game;
 import com.dmytro.gameboot.domain.GameDetail;
+import com.dmytro.gameboot.domain.Genre;
 import com.dmytro.gameboot.domain.User;
 import com.dmytro.gameboot.dto.GameRequest;
 import com.dmytro.gameboot.service.GameService;
 import com.dmytro.gameboot.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,6 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -79,8 +85,8 @@ public class AdminController {
 
     @GetMapping("/search-game")
     public String searchGameByCriteria(@RequestParam("criteria") String criteria,
-                                   @PageableDefault(size = 5) Pageable pageable,
-                                   Model model) {
+                                       @PageableDefault(size = 5) Pageable pageable,
+                                       Model model) {
         Page<Game> gamePage = gameService.getGameByNameWithGameDetails(criteria, pageable);
         Sort sort = pageable.getSort();
 
@@ -100,19 +106,59 @@ public class AdminController {
     }
 
     @GetMapping("/add-game")
-    public String addGamePage(Model model){
+    public String addGamePage(Model model) {
         model.addAttribute("gameRequest", new GameRequest());
         return "addGame";
     }
 
     @PostMapping("/add-game")
     public String addGame(@ModelAttribute("gameRequest") @Valid GameRequest gameRequest,
-                          BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+                          BindingResult bindingResult,
+                          Model model,
+                          @RequestParam("file") MultipartFile file) {
+        if (bindingResult.hasErrors()) {
             return "addGame";
         }
-        gameService.save(gameRequest);
+        try {
+            gameService.save(gameRequest, file);
+        } catch (DataIntegrityViolationException ex){
+            model.addAttribute("gameAlreadyExist", 1);
+            return "addGame";
+        }
         return "redirect:/game-boot/admin/manage-games";
+    }
+
+    @GetMapping("/edit-game")
+    public String editGamePage(@RequestParam("gameId") Long gameId, Model model) {
+        Game game = gameService.findGameById(gameId);
+        GameRequest gameRequest = GameRequest.builder()
+                .gameId(gameId)
+                .name(game.getName())
+                .genres(game.getGenres())
+                .price(game.getGameDetail().getPrice())
+                .count(game.getGameDetail().getCount())
+                .yearOfProduction(game.getGameDetail().getYearOfProduction())
+                .build();
+        model.addAttribute("game", game);
+        model.addAttribute("gameRequest", gameRequest);
+        return "editGame";
+    }
+
+    @PostMapping("/edit-game")
+    public String editGame(@ModelAttribute("gameRequest") @Valid GameRequest gameRequest,
+                           BindingResult bindingResult,
+                           Model model) {
+        if (bindingResult.hasErrors()) {
+            return "editGame";
+        }
+        try {
+            gameService.editGame(gameRequest);
+        }
+        catch (IllegalStateException | DataIntegrityViolationException e){
+            model.addAttribute("gameAlreadyExist", 1);
+            return "editGame";
+        }
+        return "redirect:/game-boot/admin/search-game?criteria=" + gameRequest.getName();
     }
 
 }

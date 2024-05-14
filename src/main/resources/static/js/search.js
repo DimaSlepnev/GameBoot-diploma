@@ -39,14 +39,13 @@ function displaySearchResults(results) {
             if (result.gameDetail.price === 0) {
                 gameText = `${result.name}<br/>Free to use`;
             } else {
-                // Якщо ціна гри більше 0, встановлюємо текст з ціною та символом ₴
                 gameText = `${result.name}<br/>${result.gameDetail.price}₴`;
             }
 
             //TODO: GAME PHOTO
 
             link.innerHTML = gameText;
-            link.href = `http://localhost:8085/game-boot/game/${result.gameId}`; // Створюємо URL для переходу на сторінку гри
+            link.href = `http://localhost:8085/game-boot/game/${result.gameId}`;
 
             resultItem.appendChild(link);
 

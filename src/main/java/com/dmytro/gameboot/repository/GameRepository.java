@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
@@ -24,4 +25,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     @Query("SELECT g FROM Game g JOIN GameDetail gm ON g.gameId=gm.game.gameId WHERE LOWER(g.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     Page<Game> getGameByNameWithGameDetails(@Param("name") String name, Pageable pageable);
+
+    Optional findGameByName(String name);
+
+    Game getById(Long id);
 }

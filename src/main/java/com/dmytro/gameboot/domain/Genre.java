@@ -12,7 +12,8 @@ public enum Genre {
     ROLE_PLAYING("Role playing"),
     ADVENTURE("Adventure"),
     SIMULATOR("Simulator"),
-    SPORTS_AND_RACING("Sport and racing");
+    SPORTS_AND_RACING("Sport and racing"),
+    Other("Other");
 
     private final String value;
 }

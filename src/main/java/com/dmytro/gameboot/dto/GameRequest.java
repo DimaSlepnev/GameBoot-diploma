@@ -17,9 +17,12 @@ import java.util.List;
 @Builder
 public class GameRequest {
 
+    private Long gameId;
+
     @NotEmpty(message = "Name can't be empty")
     private String name;
 
+    @NotEmpty(message = "Choose at least one")
     private List<Genre> genres;
 
     @NotNull(message = "Price can't be empty")
@@ -34,4 +37,6 @@ public class GameRequest {
     @NotNull(message = "Your must specified count")
     @Min( value = 1, message = "Count must be greater 0")
     private Integer count;
+
+    private String photoUrl;
 }
