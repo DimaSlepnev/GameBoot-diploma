@@ -26,33 +26,36 @@
                 <div class="card-body position-relative" th:classappend="${game.gameDetail.count == 0 ? ' out-of-stock' : ''}">
 
                     <h5 class="card-title text-center">
-                        <a th:href="@{/game-boot/game/{gameId} (gameId=${game.gameId})}" th:text="${game.name}"></a>
+                        <a th:href="@{/game-boot/game/{gameId} (gameId=${game.gameId})}"
+                           th:text="${game.name}" th:classappend="${game.gameDetail.count == 0 ? ' out-of-stock' : ''}"></a>
                     </h5>
 
                     <a th:href="@{/game-boot/game/{gameId} (gameId=${game.gameId})}">
-                        <img th:src="${game.photoUrl}" th:alt="${game.name}" style="width: 500px; height: 200px" class="w-100">
+                        <img th:src="${game.photoUrl}" th:alt="${game.name}" class="w-100">
                     </a>
 
                     <div class="d-flex justify-content-between align-items-center mt-2">
-                    <a th:href="@{/game-boot/game/{gameId} (gameId=${game.gameId})}" class="btn btn-outline-success px-3" style="width: 320px">
+                    <a th:href="@{/game-boot/game/{gameId} (gameId=${game.gameId})}"
+                       th:classappend="${game.gameDetail.count == 0 ? ' btn btn-outline-secondary px-3' : ' btn btn-outline-success px-3'}"
+                       style="width: 320px">
                         <p class="card-text m-0">
                             <span th:text="${game.gameDetail.price == 0 ? 'Free to play  |  ' : game.gameDetail.price + ' ₴  |  '}"></span>
-                            <span>Order now</span>
+                            <span th:text="#{order.now}" >Order now</span>
                         </p>
                     </a>
                     </div>
 
-                    <p class="card-text" th:text="${'Year: ' + game.gameDetail.yearOfProduction}"></p>
+                    <p class="card-text" th:text="#{year} + ': ' + ${game.gameDetail.yearOfProduction}"></p>
 
                     <p class="card-text">
-                        <strong>Genres:</strong>
+                        <strong><span th:text="#{genre}"></span>:</strong>
                         <span th:each="genre, iterStat  : ${game.genres}">
                         <span th:text="${genre.value}"></span>
                         <span th:if="${!iterStat.last}" th:text="${',' }"></span>
                     </span>
                     </p>
 
-                    <p class="card-text" th:text="${'Available: ' + game.gameDetail.count}"></p>
+                    <p class="card-text" th:text="#{available} + ': ' + ${game.gameDetail.count}"></p>
                 </div>
             </div>
         </div>

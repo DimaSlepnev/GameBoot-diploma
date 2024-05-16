@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -21,17 +20,17 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <div style="position: relative;">
             <input oninput="performSearch()" id="search-input" class="form-control mr-4-sm-2" type="text"
-                   placeholder="Search game" aria-label="Search" name="name">
+                   th:placeholder="#{search.game}" aria-label="Search" name="name">
             <div id="search-results"
                  style="position: absolute; z-index: 1000; background-color: white; border: 1px solid #ccc; max-height: 200px; overflow-y: auto;">
             </div>
         </div>
         <ul class="navbar-nav mx-auto">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/game-boot/main}">Main</a>
+                <a class="nav-link" th:text="#{main}" th:href="@{/game-boot/main}">Main</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" th:text="#{genre}" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-expanded="false">
                     Genre
                 </a>
@@ -50,35 +49,46 @@
                         and
                         racing</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[6]})}">Other</a>
+                    <a th:text="#{other}" class="dropdown-item" th:href="@{/game-boot/game/get/{genre} (genre=${session.genres[6]})}">Other</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/game-boot/user/games}">My games</a>
+                <a th:text="#{my.games}" class="nav-link" th:href="@{/game-boot/user/games}">My games</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/game-boot/user/account}">My account</a>
+                <a th:text="#{my.account}" class="nav-link" th:href="@{/game-boot/user/account}">My account</a>
             </li>
             <li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownAdmin" role="button" data-toggle="dropdown"
+                <a th:text="#{admin.actions}" class="nav-link dropdown-toggle" id="navbarDropdownAdmin" role="button" data-toggle="dropdown"
                    aria-expanded="false">
                     Admin Actions
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item"
+                       th:text="#{view.users}"
                        th:href="@{/game-boot/admin/view-users}">View Users</a>
                     <a class="dropdown-item"
+                       th:text="#{view.games}"
                        th:href="@{/game-boot/admin/manage-games}">Manage Games</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
                 </div>
             </li>
         </ul>
+
+        <div class="dropdown">
+            <button th:text="#{language}" class="btn btn-primary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Language
+            </button>
+            <div class="dropdown-menu" aria-labelledby="languageDropdown">
+                <a class="dropdown-item" href="?lang=en">English</a>
+                <a class="dropdown-item" href="?lang=ua">Українська</a>
+            </div>
+        </div>
+
         <a sec:authorize="isAuthenticated()" th:href="@{/logout}">
-            <button class="btn btn-dark">Log out</button>
+            <button th:text="#{log.out}" class="btn btn-dark">Log out</button>
         </a>
         <a sec:authorize="!isAuthenticated()" th:href="@{/game-boot/login}">
-            <button type="button" class="btn btn-info">Log in</button>
+            <button type="button" th:text="#{login}" class="btn btn-info">Log in</button>
         </a>
     </div>
 </nav>

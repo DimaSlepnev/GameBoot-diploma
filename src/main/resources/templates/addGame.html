@@ -11,25 +11,25 @@
 <body>
 <div th:insert="~{navbar::navbar}"></div>
 <div class="container mt-4">
-    <h2>Add Game</h2>
+    <h2 th:text="#{add.game}" >Add Game</h2>
     <form th:action="@{/game-boot/admin/add-game}" th:method="POST" th:object="${gameRequest}" enctype="multipart/form-data">
 
         <div class="form-group">
-            <label for="gamePhoto">Game Photo</label>
-            <input type="file" id="gamePhoto" name="file" class="form-control-file">
+            <label th:text="#{game.cover}" for="gamePhoto">Game Cover</label>
+            <input type="file" id="gamePhoto" name="file" class="form-control-file" required>
         </div>
 
 
         <div class="form-group">
-            <label for="gameName">Game Name</label>
+            <label th:text="#{game.name}" for="gameName">Game Name</label>
             <input type="text" th:field="*{name}"  id="gameName" name="name" class="form-control">
             <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-            <div style="color: red;" th:if="${gameAlreadyExist == 1}">Game with such name already exist</div>
+            <div style="color: red;" th:if="${gameAlreadyExist == 1}" th:text="#{game.already.exist}"></div>
         </div>
 
 
         <div class="form-group">
-            <label>Genre</label><br>
+            <label th:text="#{genre}" >Genre</label><br>
             <div style="color: red" th:if="${#fields.hasErrors('genres')}" th:errors="*{genres}"></div>
             <div th:each="genre : ${session.genres}">
                 <div class="form-check form-check-inline">
@@ -41,14 +41,14 @@
 
 
         <div class="form-group">
-            <label for="gamePrice">Price</label>
+            <label th:text="#{price}" for="gamePrice">Price</label>
             <input type="number" th:field="*{price}"  id="gamePrice" step="0.01" name="price" class="form-control">
             <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
         </div>
 
 
         <div class="form-group">
-            <label for="gameYear">Year of Production</label>
+            <label th:text="#{year.of.production}" for="gameYear">Year of Production</label>
             <input type="number" th:field="*{yearOfProduction}"  id="gameYear" name="year" class="form-control">
             <div style="color: red" th:if="${#fields.hasErrors('yearOfProduction')}" th:errors="*{yearOfProduction}"></div>
 
@@ -56,13 +56,13 @@
 
 
         <div class="form-group">
-            <label for="gameCount">Count</label>
+            <label th:text="#{count}" for="gameCount">Count</label>
             <input type="number" id="gameCount" name="count" th:field="*{count}" class="form-control">
             <div style="color: red" th:if="${#fields.hasErrors('count')}" th:errors="*{count}"></div>
         </div>
 
 
-        <button type="submit" class="btn btn-success">Add Game</button>
+        <button type="submit" th:text="#{add.game}" class="btn btn-success">Add Game</button>
     </form>
 </div>
 

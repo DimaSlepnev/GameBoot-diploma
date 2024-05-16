@@ -1,8 +1,6 @@
 package com.dmytro.gameboot.controller;
 
 import com.dmytro.gameboot.domain.Game;
-import com.dmytro.gameboot.domain.GameDetail;
-import com.dmytro.gameboot.domain.Genre;
 import com.dmytro.gameboot.domain.User;
 import com.dmytro.gameboot.dto.GameRequest;
 import com.dmytro.gameboot.service.GameService;
@@ -20,9 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -54,9 +49,12 @@ public class AdminController {
     }
 
     @GetMapping("/search")
-    public String searchByCriteria(@RequestParam("criteria") String criteria,
+    public String searchByCriteria(@RequestParam(value = "criteria", required = false) String criteria,
                                    @PageableDefault Pageable pageable,
                                    Model model) {
+        if(criteria == null || criteria.isEmpty() || criteria.isBlank()){
+            return "redirect:/game-boot/admin/view-users";
+        }
         Page<User> userPage = userService.findAllByUsernameOrEmailContaining(criteria, pageable);
         model.addAttribute("userPage", userPage);
         model.addAttribute("criteria", criteria);
@@ -84,9 +82,13 @@ public class AdminController {
     }
 
     @GetMapping("/search-game")
-    public String searchGameByCriteria(@RequestParam("criteria") String criteria,
+    public String searchGameByCriteria(@RequestParam(value = "criteria", required = false) String criteria,
                                        @PageableDefault(size = 5) Pageable pageable,
                                        Model model) {
+        if(criteria == null || criteria.isEmpty() || criteria.isBlank()){
+            return "redirect:/game-boot/admin/manage-games";
+        }
+
         Page<Game> gamePage = gameService.getGameByNameWithGameDetails(criteria, pageable);
         Sort sort = pageable.getSort();
 
@@ -135,6 +137,7 @@ public class AdminController {
                 .gameId(gameId)
                 .name(game.getName())
                 .genres(game.getGenres())
+                .photoUrl(game.getPhotoUrl())
                 .price(game.getGameDetail().getPrice())
                 .count(game.getGameDetail().getCount())
                 .yearOfProduction(game.getGameDetail().getYearOfProduction())
@@ -147,12 +150,13 @@ public class AdminController {
     @PostMapping("/edit-game")
     public String editGame(@ModelAttribute("gameRequest") @Valid GameRequest gameRequest,
                            BindingResult bindingResult,
-                           Model model) {
+                           Model model,
+                           @RequestParam(value = "file", required = false) MultipartFile file) {
         if (bindingResult.hasErrors()) {
             return "editGame";
         }
         try {
-            gameService.editGame(gameRequest);
+            gameService.editGame(gameRequest, file);
         }
         catch (IllegalStateException | DataIntegrityViolationException e){
             model.addAttribute("gameAlreadyExist", 1);

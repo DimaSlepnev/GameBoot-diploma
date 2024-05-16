@@ -89,7 +89,7 @@ public class GameService {
         gameDetailService.save(gameDetail);
     }
 
-    public void editGame(GameRequest gameRequest) {
+    public void editGame(GameRequest gameRequest, MultipartFile file ) {
         Game game = gameRepository.getById(gameRequest.getGameId());
         Game oldGame = (Game) gameRepository.findGameByName(gameRequest.getName())
                 .orElse(Game.builder()
@@ -99,6 +99,16 @@ public class GameService {
         if (!Objects.equals(game.getGameId(), oldGame.getGameId()) && game.getName().equalsIgnoreCase(oldGame.getName())) {
             throw new IllegalStateException("Game with such name already exist");
         }
+        if(file != null && !file.isEmpty()){
+            String fileName = game.getName().replace(":","");
+            System.out.println(fileName);
+            try {
+                fileName = FileUploadUtil.saveFile(PHOTO_DIRECTORY, fileName, file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            game.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/" + fileName);
+        }
         game.getGameDetail().setPrice(gameRequest.getPrice());
         game.getGameDetail().setCount(gameRequest.getCount());
         game.getGameDetail().setYearOfProduction(gameRequest.getYearOfProduction());
@@ -107,32 +117,4 @@ public class GameService {
         game.setName(gameRequest.getName());
         gameRepository.save(game);
     }
-
-    /*public void updatePhoto(Long id, MultipartFile file) {
-        Game game = gameRepository.getById(id);
-        String photoUrl = photoFunction.apply(id.toString(), file);
-        game.setPhotoUrl(photoUrl);
-        gameRepository.save(game);
-    }*/
-
-   /* private final Function<String, String> fileExtension = filename -> Optional.of(filename).filter(name -> name.contains("."))
-            .map(name -> "." + name.substring(filename.lastIndexOf(".") + 1)).orElse(".png");
-
-    private final BiFunction<String, MultipartFile, String> photoFunction = (id, image) -> {
-        String filename = id + fileExtension.apply(image.getOriginalFilename());
-        try {
-            Path fileStorageLocation = Paths.get(PHOTO_DIRECTORY).toAbsolutePath().normalize();
-            if (Files.notExists(fileStorageLocation)) {
-                Files.createDirectories(fileStorageLocation);
-            }
-
-            Files.copy(image.getInputStream(), fileStorageLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-
-            return ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/game-boot/v1/game/image/" + filename).toUriString();
-        } catch (Exception exception) {
-            throw new RuntimeException("Unable to save image", exception);
-        }
-    };*/
 }

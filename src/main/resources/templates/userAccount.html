@@ -44,7 +44,7 @@
     <div class="content">
 
         <div class="user-info-row">
-            <strong> <i style="color: royalblue;" class="fa fa-envelope-o" aria-hidden="true"></i> Email:</strong> <span th:text="${user.email}">example@example.com</span>
+            <strong> <i style="color: royalblue;" class="fa fa-envelope-o" aria-hidden="true"></i></strong> <span th:text="#{email} + ':' + ${user.email}">example@example.com</span>
         </div>
 
 
@@ -52,24 +52,26 @@
             <div class="d-flex justify-content-between">
 
                 <div>
-                    <strong><i style="color: forestgreen;" class="fa fa-money" aria-hidden="true"></i> Balance:</strong>
-                    <span th:text="${user.balance}">0.00</span>₴
+                    <strong><i style="color: forestgreen;" class="fa fa-money" aria-hidden="true"></i></strong>
+                    <span th:text="#{balance} + ': ' + ${user.balance}">0.00</span>₴
                 </div>
 
-                <a  type="button" class="btn btn-success" data-toggle="modal" data-target="#topUpModal">Top Up</a>
+                <a  type="button" th:text="#{top.up}" class="btn btn-success" data-toggle="modal" data-target="#topUpModal">Top Up</a>
             </div>
         </div>
 
 
         <div class="user-info-row">
-            <strong> <i class="fa fa-user-o" aria-hidden="true"></i> Role:</strong> <span th:text="${user.role}">USER_ROLE</span>
+            <strong> <i class="fa fa-user-o" aria-hidden="true"></i></strong> <span th:text="#{role} + ': ' + ${user.role}">USER_ROLE</span>
         </div>
 
 
         <div class="user-info-row">
             <strong> <i class="fa fa-gamepad" aria-hidden="true"></i> My games:</strong>
-
-            <a th:href="@{/game-boot/user/games}">View Games</a>
+            <span th:text="#{my.games}"></span>
+            <a
+                    th:text="#{view.games}"
+                    th:href="@{/game-boot/user/games}">View Games</a>
         </div>
     </div>
 </div>
@@ -77,7 +79,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="topUpModalLabel">Top Up Balance</h5>
+                <h5 class="modal-title" th:text="#{top.up.balance}" id="topUpModalLabel">Top Up Balance</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -86,10 +88,10 @@
 
                 <form th:action="@{/game-boot/user/top-up}" th:method="POST">
                     <div class="form-group">
-                        <label for="topUpAmount">Enter amount to top up:</label>
-                        <input type="number" class="form-control" id="topUpAmount" name="amount" placeholder="Amount" min="0" step="0.01" required>
+                        <label th:text="#{enter.amount}" for="topUpAmount">Enter amount to top up:</label>
+                        <input type="number" class="form-control" id="topUpAmount" name="amount" th:placeholder="#{amount}" min="0" step="0.01" required>
                     </div>
-                    <button type="submit" class="btn btn-success">Confirm</button>
+                    <button type="submit" th:text="#{confirm}" class="btn btn-success">Confirm</button>
                 </form>
             </div>
         </div>

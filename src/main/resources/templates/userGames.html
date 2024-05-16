@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>My Games</title>
-    <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -22,18 +20,20 @@
 <div class="container">
     <h1>My games</h1>
 
-    <p th:text="${'Total amount: ' + games.size}"></p>
+    <p th:text="#{total.amount} + ' ' + ${games.size}"></p>
 
     <div class="row">
         <div th:each="game : ${games}" class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
 
-                    <h5 class="card-title">
+                    <h5 class="card-title text-center">
                         <a th:href="@{/game-boot/game/{gameId} (gameId=${game.game.gameId})}" th:text="${game.game.name}"></a>
                     </h5>
 
-                    <p class="card-text" th:text="${'Year: ' + game.game.gameDetail.yearOfProduction}"></p>
+                    <img th:src="${game.game.photoUrl}" class="w-100">
+
+                    <p class="card-text" th:text="#{year} + ': ' +${game.game.gameDetail.yearOfProduction}"></p>
 
 
                     <p class="card-text">
@@ -44,9 +44,11 @@
                             </span>
                     </p>
 
-                    <p class="card-text" th:text="${'Buy at: ' + #temporals.format(game.buyAt, 'dd.MM.yyyy')}"></p>
+                    <p class="card-text" th:text="#{bought.at} + ' ' + ${#temporals.format(game.buyAt, 'dd.MM.yyyy')}"></p>
 
-                    <p class="card-text" th:text="${'Price: ' + game.gamePrice}"></p>
+                    <p class="card-text" th:text="#{paid.for} + ' ' + ${game.gamePrice}"></p>
+
+                    <p class="card-text" th:text="#{activation.code} + ' ' + ${'Activation code: ' + game.gameCode}"></p>
                 </div>
             </div>
         </div>

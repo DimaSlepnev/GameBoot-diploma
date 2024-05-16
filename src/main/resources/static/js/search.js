@@ -17,23 +17,17 @@ function performSearch() {
 }
 
 function displaySearchResults(results) {
-
     const resultsContainer = document.getElementById('search-results');
-
 
     resultsContainer.innerHTML = '';
 
-
     if (results.length > 0) {
         results.forEach(result => {
-            const resultItem = document.createElement('div');
+            const row = document.createElement('tr');
+
+            const nameCell = document.createElement('td');
             const link = document.createElement('a');
-            resultItem.onmouseover = function (){
-                this.style.backgroundColor = "rgba(224, 222, 232, 0.75)"
-            }
-            resultItem.onmouseleave = function (){
-                this.style.backgroundColor = "white"
-            }
+
 
             let gameText;
             if (result.gameDetail.price === 0) {
@@ -42,14 +36,22 @@ function displaySearchResults(results) {
                 gameText = `${result.name}<br/>${result.gameDetail.price}₴`;
             }
 
-            //TODO: GAME PHOTO
-
             link.innerHTML = gameText;
             link.href = `http://localhost:8085/game-boot/game/${result.gameId}`;
+            nameCell.appendChild(link);
+            row.appendChild(nameCell);
 
-            resultItem.appendChild(link);
-
-            resultsContainer.appendChild(resultItem);
+            const coverCell = document.createElement('td');
+            const coverImage = document.createElement('img');
+            coverImage.src = result.photoUrl;
+            coverImage.alt = result.name;
+            coverImage.style.maxWidth = '50px';
+            coverImage.style.maxHeight = '50px';
+            coverImage.style.margin = 'auto'
+            coverImage.classList.add('game-cover');
+            coverCell.appendChild(coverImage);
+            row.appendChild(coverCell);
+            resultsContainer.appendChild(row);
         });
     }
 }

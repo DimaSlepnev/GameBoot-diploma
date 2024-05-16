@@ -18,7 +18,7 @@
         <form th:action="@{/game-boot/admin/search-game}" th:method="GET" class="w-100">
             <div id="custom-search-input">
                 <div class="input-group">
-                    <input type="text" name="criteria" class="search-query form-control" placeholder="Search by game name" />
+                    <input type="text" name="criteria" class="search-query form-control" th:placeholder="#{search.by.game.name}" />
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="submit">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -31,12 +31,13 @@
 </div>
 
 <div class="container">
-    <p>Total records: <span th:text="${gamePage.totalElements}"></span></p>
+    <p><span th:text="#{total.records} + ' ' + ${gamePage.totalElements}"></span></p>
     <div class="container">
         <div style="float: right; display: flex; align-items: center;">
             <form th:action="@{/game-boot/admin/add-game}" th:method="GET">
                 <button class="btn btn-success ml-3" type="submit">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Add game
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <span th:text="#{add.game}"></span>
                 </button>
             </form>
         </div>
@@ -45,18 +46,18 @@
             <thead>
             <tr>
                 <th>
-                    <a th:href="@{/game-boot/admin/manage-games(sort=name,page=${gamePage.pageable.pageNumber})}" th:text="'Name'"></a>
+                    <a th:href="@{/game-boot/admin/manage-games(sort=name,page=${gamePage.pageable.pageNumber})}" th:text="#{name}"></a>
                 </th>
                 <th>
-                    <a th:href="@{/game-boot/admin/manage-games(sort=gameDetail.price,page=${gamePage.pageable.pageNumber})}" th:text="'Price'"></a>
+                    <a th:href="@{/game-boot/admin/manage-games(sort=gameDetail.price,page=${gamePage.pageable.pageNumber})}" th:text="#{price}"></a>
                 </th>
                 <th>
-                    <a th:href="@{/game-boot/admin/manage-games(sort=gameDetail.count,page=${gamePage.pageable.pageNumber})}" th:text="'Count'"></a>
+                    <a th:href="@{/game-boot/admin/manage-games(sort=gameDetail.count,page=${gamePage.pageable.pageNumber})}" th:text="#{count}"></a>
                 </th>
                 <th>
-                    <a th:href="@{/game-boot/admin/manage-games(sort=gameDetail.yearOfProduction,page=${gamePage.pageable.pageNumber})}" th:text="'Year of production'"></a>
+                    <a th:href="@{/game-boot/admin/manage-games(sort=gameDetail.yearOfProduction,page=${gamePage.pageable.pageNumber})}" th:text="#{year.of.production}"></a>
                 </th>
-                <th>Action</th>
+                <th th:text="#{action.game.page}" >Action</th>
             </tr>
             </thead>
             <tbody>
@@ -69,7 +70,8 @@
                     <form th:action="@{/game-boot/admin/edit-game}" method="GET">
                         <input type="hidden" th:value="${game.gameId}" name="gameId">
                         <button type="submit" class="btn btn-link">
-                            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <span th:text="#{edit}"></span>
                         </button>
                     </form>
 

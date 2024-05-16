@@ -1,11 +1,9 @@
 package com.dmytro.gameboot.controller;
 
-import com.dmytro.gameboot.domain.Game;
 import com.dmytro.gameboot.domain.User;
 import com.dmytro.gameboot.domain.UserGame;
 import com.dmytro.gameboot.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

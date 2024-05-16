@@ -49,12 +49,12 @@
 </head>
 
 <body>
-<div th:insert="~{navbar}"></div>
+<div th:insert="~{navbar::navbar}"></div>
 <div class="container">
     <div class="game-container">
         <div class="game-image">
-            <!--<img th:src="${game.imageUrl}" alt="Game Image" style="max-width: 100%;">-->
-            <p>Here is image
+            <p>
+                <img th:src="${game.photoUrl}">
             <p>
         </div>
 
@@ -63,14 +63,15 @@
             <h2 th:text="${game.name}"></h2>
 
 
-            <p><strong>Price:</strong> <span
+            <p><strong><span th:text="#{price} + ':'"></span></strong> <span
                     th:text="${game.gameDetail.price == 0 ? 'Free' : game.gameDetail.price + ' ₴'}"></span></p>
 
 
-            <p><strong>Year:</strong> <span th:text="${game.gameDetail.yearOfProduction}"></span></p>
+            <p><strong><span th:text="#{year} + ':'"></span></strong> <span
+                    th:text="${game.gameDetail.yearOfProduction}"></span></p>
 
 
-            <p><strong>Genres:</strong>
+            <p><strong><span th:text="#{genre} + ':'"></span></strong>
                 <span th:each="genre, iterStat  : ${game.genres}">
                     <span th:text="${genre.value}"></span>
                     <span th:if="${!iterStat.last}" th:text="${',' }"></span>
@@ -78,10 +79,11 @@
             </p>
 
 
-            <p><strong>Remain:</strong> <span th:text="${game.gameDetail.count}"></span></p>
+            <p><strong><span th:text="#{remain} + ':'"></span></strong> <span th:text="${game.gameDetail.count}"></span></p>
 
 
-            <button class="buy-button" data-toggle="modal" data-target="#purchaseModal">Buy Now</button>
+            <button class="buy-button" th:text="#{buy.now}" data-toggle="modal" data-target="#purchaseModal">Buy Now
+            </button>
         </div>
     </div>
 </div>
@@ -92,20 +94,20 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="purchaseModalLabel">Purchase Game</h5>
+                <h5 class="modal-title" th:text="#{purchase.game}" id="purchaseModalLabel">Purchase Game</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Balance: <span th:value="${balance}" th:text="${balance}" id="user-balance"></span>₴</p>
-                <p>Game Price: <span th:value="${game.gameDetail.price}" th:text="${game.gameDetail.price}"
-                                     id="game-price"></span>₴</p>
+                <p><span th:value="${balance}" th:text="#{balance} + ': ' + ${balance} + '₴'" id="user-balance"></span></p>
+                <p><span th:value="${game.gameDetail.price}" th:text="#{game.price} + ': ' + ${game.gameDetail.price} + '₴'"
+                                     id="game-price"></span></p>
 
                 <div th:if="${balance < game.gameDetail.price}" id="balance-warning" style="color: red;">
-                    <p>Insufficient balance. Please top up your balance.</p>
+                    <p><span th:text="#{please.pop.up}" ></span></p>
                     <a th:href="@{/game-boot/user/account}">
-                        <button class="btn btn-primary">Top Up Balance</button>
+                        <button th:text="#{top.up.balance}" class="btn btn-primary">Top Up Balance</button>
                     </a>
                 </div>
 
@@ -113,13 +115,14 @@
             <div class="modal-footer">
                 <form th:action="@{/game-boot/user/buy-game}" th:method="POST">
                     <input type="hidden" th:value="${game.gameId}" name="gameId">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" th:text="#{cancel}" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button th:if="${balance < game.gameDetail.price || game.gameDetail.count < 1}" type="button"
                             class="btn btn-success"
-                            id="confirm-purchase" disabled>Confirm
+                            id="confirm-purchase" th:text="#{confirm}" disabled>Confirm
                     </button>
                     <button th:if="${balance >= game.gameDetail.price && game.gameDetail.count > 0}" type="submit"
                             class="btn btn-success"
+                            th:text="#{confirm}"
                             id="confirm-purchase-allow">Confirm
                     </button>
                 </form>

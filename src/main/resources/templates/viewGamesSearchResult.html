@@ -19,7 +19,7 @@
         <form th:action="@{/game-boot/admin/search-game}" th:method="GET" class="w-100">
             <div id="custom-search-input">
                 <div class="input-group">
-                    <input type="text"  th:value="${criteria}" name="criteria" class="search-query form-control" placeholder="Search by game name" />
+                    <input type="text"  th:value="${criteria}" name="criteria" class="search-query form-control" th:placeholder="#{search.game}" />
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="submit">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -32,11 +32,11 @@
 </div>
 
 <div class="container">
-    <p>Search results: <span th:text="${gamePage.totalElements}"></span></p>
+    <p><span th:text="#{search.results} + ' ' + ${gamePage.totalElements}"></span></p>
     <div class="container">
         <div style="float: right; display: flex; align-items: center;">
             <form th:action="@{/game-boot/admin/add-game}" th:method="GET">
-                <button class="btn btn-success ml-3" type="submit">
+                <button th:text="#{add.game}" class="btn btn-success ml-3" type="submit">
                     <i class="fa fa-plus" aria-hidden="true"></i> Add game
                 </button>
             </form>
@@ -46,18 +46,18 @@
         <thead>
         <tr>
             <th>
-                <a th:href="@{/game-boot/admin/search-game(sort=name,page=${gamePage.pageable.pageNumber}, criteria=${criteria})}" th:text="'Name'"></a>
+                <a th:href="@{/game-boot/admin/search-game(sort=name,page=${gamePage.pageable.pageNumber}, criteria=${criteria})}" th:text="#{name}"></a>
             </th>
             <th>
-                <a th:href="@{/game-boot/admin/search-game(sort=gameDetail.price,page=${gamePage.pageable.pageNumber}, criteria=${criteria})}" th:text="'Price'"></a>
+                <a th:href="@{/game-boot/admin/search-game(sort=gameDetail.price,page=${gamePage.pageable.pageNumber}, criteria=${criteria})}" th:text="#{price}"></a>
             </th>
             <th>
-                <a th:href="@{/game-boot/admin/search-game(sort=gameDetail.count,page=${gamePage.pageable.pageNumber}, criteria=${criteria})}" th:text="'Count'"></a>
+                <a th:href="@{/game-boot/admin/search-game(sort=gameDetail.count,page=${gamePage.pageable.pageNumber}, criteria=${criteria})}" th:text="#{count}"></a>
             </th>
             <th>
-                <a th:href="@{/game-boot/admin/search-game(sort=gameDetail.yearOfProduction,page=${gamePage.pageable.pageNumber}, criteria=${criteria})}" th:text="'Year of production'"></a>
+                <a th:href="@{/game-boot/admin/search-game(sort=gameDetail.yearOfProduction,page=${gamePage.pageable.pageNumber}, criteria=${criteria})}" th:text="#{year.of.production}"></a>
             </th>
-            <th>Action</th>
+            <th th:text="#{action.game.page}">Action</th>
         </tr>
         </thead>
         <tbody>

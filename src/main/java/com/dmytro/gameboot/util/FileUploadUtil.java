@@ -2,6 +2,7 @@ package com.dmytro.gameboot.util;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.processing.Filer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,11 +35,24 @@ public class FileUploadUtil {
         return fileName + "." + fileExtension;
     }
 
+    public static boolean deleteFile(String uploadDir, String fileName) throws IOException {
+        Path filePath = Paths.get(uploadDir).resolve(fileName);
+        return  Files.deleteIfExists(filePath);
+    }
+
     private static String getFileExtension(String fileName) {
         int lastDotIndex = fileName.lastIndexOf('.');
         if (lastDotIndex > 0) {
             return fileName.substring(lastDotIndex + 1);
         }
         return "";
+    }
+
+    private static String getFileNameWithoutExtension(String fileName) {
+        int pos = fileName.lastIndexOf(".");
+        if (pos != -1) {
+            return fileName.substring(0, pos);
+        }
+        return fileName;
     }
 }

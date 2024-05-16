@@ -5,6 +5,8 @@ import com.dmytro.gameboot.domain.Genre;
 import com.dmytro.gameboot.domain.User;
 import com.dmytro.gameboot.service.GameService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,8 @@ public class GameController {
 
     private final GameService gameService;
 
+    private final MessageSource messageSource;
+
     @GetMapping("/{gameId}")
     public String getGameById(@PathVariable("gameId") Long gameId, Model model) {
         Game game = gameService.findGameById(gameId);
@@ -35,7 +39,8 @@ public class GameController {
         /*Genre genre = Genre.valueOf(genreStr);*/
         List<Game> games = gameService.getGamesByGenre(genre);
         model.addAttribute("games", games);
-        model.addAttribute("text", genre.getValue());
+        String text = messageSource.getMessage(genre.getValue().toLowerCase(), null, LocaleContextHolder.getLocale());
+        model.addAttribute("text", text);
         return "main";
     }
 }

@@ -37,9 +37,9 @@
 <body>
 <div class="confirmation-container">
     <div class="tick-mark">&#10004;</div>
-    <div class="confirmation-message">Your email has been confirmed</div>
+    <div th:text="#{confirmed.email}"  class="confirmation-message">Your email has been confirmed</div>
     <div class="divider-line"></div>
-    <div class="continue-message">Thank you for validating your email address. You can now continue to use GameBoot.</div>
+    <div th:text="#{thanks.for.validating}" class="continue-message">Thank you for validating your email address. You can now continue to use GameBoot.</div>
 </div>
 </body>
 </html>

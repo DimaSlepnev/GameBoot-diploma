@@ -20,7 +20,7 @@
             <div id="custom-search-input">
                 <div class="input-group">
 
-                    <input type="text" name="criteria" class="search-query form-control" placeholder="Search by username or email" />
+                    <input type="text" name="criteria" class="search-query form-control" th:placeholder="#{search.by.username.ot.email}" />
                     <div class="input-group-append">
 
                         <button class="btn btn-primary" type="submit">
@@ -34,16 +34,16 @@
 </div>
 
 <div class="container">
-    <p>Total records: <span th:text="${userPage.totalElements}"></span></p>
+    <p><span th:text="#{total.records} + ' ' + ${userPage.totalElements}"></span></p>
 
     <table class="table">
         <thead>
         <tr>
-            <th th:sort="${'username'}"><a th:href="@{/game-boot/admin/view-users(sort=username)}">Username</a></th>
-            <th th:sort="${'email'}"><a th:href="@{/game-boot/admin/view-users(sort=email)}">Email</a></th>
-            <th th:sort="${'balance'}"><a th:href="@{/game-boot/admin/view-users(sort=balance)}">Balance</a></th>
-            <th th:sort="${'role'}"><a th:href="@{/game-boot/admin/view-users(sort=role)}">Role</a></th>
-            <th>Action</th>
+            <th th:sort="${'username'}"><a th:text="#{username}" th:href="@{/game-boot/admin/view-users(sort=username)}">Username</a></th>
+            <th th:sort="${'email'}"><a th:text="#{email}" th:href="@{/game-boot/admin/view-users(sort=email)}">Email</a></th>
+            <th th:sort="${'balance'}"><a th:text="#{balance}" th:href="@{/game-boot/admin/view-users(sort=balance)}">Balance</a></th>
+            <th th:sort="${'role'}"><a th:text="#{role}" th:href="@{/game-boot/admin/view-users(sort=role)}">Role</a></th>
+            <th th:text="#{action.game.page}" >Action</th>
         </tr>
         </thead>
         <tbody>
@@ -55,7 +55,8 @@
             <td sec:authorize="hasAuthority('ADMIN')" th:if="${u.role.name.equalsIgnoreCase('USER')}">
                 <button data-toggle="modal" th:attr="data-target='#confirmAdminModal' + ${u.userId}"
                         style="color: blue; outline: none; border: none;">
-                    <i class="fa fa-caret-square-o-up" aria-hidden="true"></i> Promote to admin
+                    <i class="fa fa-caret-square-o-up" aria-hidden="true"></i>
+                    <span th:text="#{promote.to.admin}" ></span>
                 </button>
             </td>
             <div class="modal fade" th:id="'confirmAdminModal' + ${u.userId}" tabindex="-1" aria-labelledby="confirmAdminModalLabel"
@@ -63,7 +64,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="confirmAdminModalLabel">Promote to Admin</h5>
+                            <h5 class="modal-title" th:text="#{promote.to.admin}" id="confirmAdminModalLabel">Promote to Admin</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -71,16 +72,16 @@
                         <div class="modal-body">
                             <div style="display: flex; align-items: center; color: red;">
                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                <span style="margin-left: 10px;">This operation is irreversible.</span>
+                                <span th:text="#{irreversible.operation}" style="margin-left: 10px;">This operation is irreversible.</span>
                             </div>
-                            <p>Are you sure you want to promote <strong th:text="${u.username}"></strong> to admin?</p>
-                            <p>Email: <strong th:text="${u.email}"></strong></p>
+                            <p> <span th:text="#{you.want.promote}"></span> <strong th:text="${u.username}"></strong><span th:text="#{to.admin} + '?'"></span> </p>
+                            <p><span th:text="#{email} + ': '"></span><strong th:text="${u.email}"></strong></p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" th:text="#{cancel}" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <form id="promotionForm" th:method="POST" th:action="@{/game-boot/admin/promote-to-admin}">
                                 <input type="hidden" name="email" th:value="${u.email}">
-                                <button type="submit" class="btn btn-primary">Confirm</button>
+                                <button type="submit" th:text="#{confirm}" class="btn btn-primary">Confirm</button>
                             </form>
                         </div>
                     </div>

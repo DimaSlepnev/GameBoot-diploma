@@ -58,17 +58,17 @@ public class GameBootApplication implements CommandLineRunner {
 
         genres.add(Genre.STRATEGY);
         genres.add(Genre.ACTION);
-        GameDetail pubgDetail = GameDetail.builder()
+        GameDetail valheimDetail = GameDetail.builder()
                 .count(30)
                 .price(0.00)
                 .yearOfProduction(2017)
                 .build();
-        Game pubg = createGame("PUBG: BATTLEGROUNDS", genres, pubgDetail);
-        pubg.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/PUBG BATTLEGROUNDS.jpg");
-        gameDetailService.save(pubgDetail);
-        pubgDetail.setGame(pubg);
-        gameService.save(pubg);
-        gameDetailService.save(pubgDetail);
+        Game valheim = createGame("Valheim", genres, valheimDetail);
+        valheim.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Valheim.jpg");
+        gameDetailService.save(valheimDetail);
+        valheimDetail.setGame(valheim);
+        gameService.save(valheim);
+        gameDetailService.save(valheimDetail);
         genres.clear();
 
         genres.add(Genre.ROLE_PLAYING);
@@ -103,17 +103,18 @@ public class GameBootApplication implements CommandLineRunner {
 
         genres.add(Genre.ADVENTURE);
         genres.add(Genre.ROLE_PLAYING);
-        GameDetail minecraftDetail = GameDetail.builder()
+        genres.add(Genre.SIMULATOR);
+        GameDetail farmSimDetail = GameDetail.builder()
                 .count(0)
                 .price(30.00)
-                .yearOfProduction(2011)
+                .yearOfProduction(2022)
                 .build();
-        Game minecraft = createGame("Minecraft", genres, minecraftDetail);
-        minecraft.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Minecraft.jpg");
-        gameDetailService.save(minecraftDetail);
-        minecraftDetail.setGame(minecraft);
-        gameService.save(minecraft);
-        gameDetailService.save(minecraftDetail);
+        Game FarmSim22 = createGame("Farming Simulator 22", genres, farmSimDetail);
+        FarmSim22.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Farming Simulator 22.jpg");
+        gameDetailService.save(farmSimDetail);
+        farmSimDetail.setGame(FarmSim22);
+        gameService.save(FarmSim22);
+        gameDetailService.save(farmSimDetail);
         genres.clear();
 
         genres.add(Genre.ACTION);
@@ -146,19 +147,19 @@ public class GameBootApplication implements CommandLineRunner {
         gameDetailService.save(cpDetail);
         genres.clear();
 
-        genres.add(Genre.SPORTS_AND_RACING);
+        genres.add(Genre.Other);
         genres.add(Genre.ACTION);
-        GameDetail rlDetail = GameDetail.builder()
+        GameDetail callistoDetail = GameDetail.builder()
                 .count(35)
                 .price(600.00)
-                .yearOfProduction(2015)
+                .yearOfProduction(2023)
                 .build();
-        Game rl = createGame("Rocket League", genres, rlDetail);
-        rl.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/Rocket League.jpg");
-        gameDetailService.save(rlDetail);
-        rlDetail.setGame(rl);
-        gameService.save(rl);
-        gameDetailService.save(rlDetail);
+        Game callisto = createGame("The Callisto Protocol", genres, callistoDetail);
+        callisto.setPhotoUrl("http://localhost:8085/game-boot/v1/game/image/The Callisto Protocol.jpg");
+        gameDetailService.save(callistoDetail);
+        callistoDetail.setGame(callisto);
+        gameService.save(callisto);
+        gameDetailService.save(callistoDetail);
         genres.clear();
 
         genres.add(Genre.STRATEGY);
@@ -262,7 +263,7 @@ public class GameBootApplication implements CommandLineRunner {
         userGamesList.clear();
         games.clear();
 
-        games.add(pubg);
+        games.add(valheim);
         games.add(gta);
         games.add(witcher);
         games.add(cod);
@@ -280,17 +281,17 @@ public class GameBootApplication implements CommandLineRunner {
                 .build();
         /*userService.save(rayan);*/
 
-        UserGame pubgGame = UserGame.builder()
+        UserGame valheimGame = UserGame.builder()
                 .user(rayan)
-                .game(pubg)
+                .game(valheim)
                 .gameCode(UUID.randomUUID().toString())
                 .buyAt(LocalDateTime.now())
                 .gamePrice(0.0)
                 .build();
-        userGamesList.add(pubgGame);
+        userGamesList.add(valheimGame);
         userService.save(rayan);
         rayan.setGame(userGamesList);
-        userGameService.save(pubgGame);
+        userGameService.save(valheimGame);
         userService.save(rayan);
         UserGame gtaGame = UserGame.builder()
                 .user(rayan)

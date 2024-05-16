@@ -19,23 +19,23 @@ public class GameRequest {
 
     private Long gameId;
 
-    @NotEmpty(message = "Name can't be empty")
+    @NotEmpty(message = "{name.not.empty}")
     private String name;
 
-    @NotEmpty(message = "Choose at least one")
+    @NotEmpty(message = "{choose.at.least.one}")
     private List<Genre> genres;
 
-    @NotNull(message = "Price can't be empty")
-    @Min(value = 0, message = "Price cant be negative")
+    @NotNull(message = "{price.not.empty}")
+    @Min(value = 0, message = "{price.not.negative}")
     private Double price;
 
 
-    @Max(value = 2024, message = "Year must be before 2024")
-    @Min(value = 1995, message = "Year must be after 1995")
+    @Max(value = 2024, message = "{year.before}")
+    @Min(value = 1995, message = "{year.after}")
     private Integer yearOfProduction;
 
-    @NotNull(message = "Your must specified count")
-    @Min( value = 1, message = "Count must be greater 0")
+    @NotNull(message = "{count.not.empty}")
+    @Min( value = 1, message = "{count.greater.zero}")
     private Integer count;
 
     private String photoUrl;
